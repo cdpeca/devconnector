@@ -14,14 +14,12 @@ const User = require('../../models/User');
 router.post(
     '/',
     [
-        check('name', 'Name is required')
-            .not()
-            .isEmpty(),
+        check('name', 'Name is required').not().isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
         check(
             'password',
             'Please enter a password with 6 or more characters'
-        ).isLength({ min: 6 })
+        ).isLength({ min: 6 }),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -32,16 +30,18 @@ router.post(
         const { name, email, password } = req.body;
 
         try {
-            let user = await User.findOne({email})
+            let user = await User.findOne({ email });
 
             if (user) {
-                return res.status(400).json({ errors: [{ msg: 'User already exists' }] });
+                return res
+                    .status(400)
+                    .json({ errors: [{ msg: 'User already exists' }] });
             }
 
             const avatar = gravatar.url(email, {
                 s: '200',
                 r: 'pg',
-                d: 'mm'
+                d: 'mm',
             });
 
             // Create User
@@ -50,7 +50,7 @@ router.post(
                 name,
                 email,
                 avatar,
-                password
+                password,
             });
 
             // Hash the password
@@ -67,9 +67,9 @@ router.post(
 
             const payload = {
                 user: {
-                    id: user.id
-                }
-            }
+                    id: user.id,
+                },
+            };
 
             /*
                 Sign the token
@@ -87,12 +87,12 @@ router.post(
                 (err, token) => {
                     if (err) throw err;
                     res.json({ token });
-                });
+                }
+            );
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server error');
         }
-
     }
 );
 
