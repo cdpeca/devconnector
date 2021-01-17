@@ -7,7 +7,8 @@ const connectDB = async () => {
         await mongoose.connect(db, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true
+            useCreateIndex: true,
+            useFindAndModify: false,
         });
 
         console.log('MongoDB Connected...');
@@ -16,6 +17,6 @@ const connectDB = async () => {
         // Exit process with failure
         process.exit(1);
     }
-}
+};
 
 module.exports = connectDB;

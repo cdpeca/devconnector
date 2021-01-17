@@ -90,8 +90,6 @@ router.post(
 
             if (profile) {
                 // Update the profile if it is already exists and is found
-                // ! 'findOneandUpdate()' and 'findOneandDelete()' without the 'useFindandModify' option set to 'false' are deprecated. See: https://mongoosejs.com/docs/deprecations.html#findandmodify
-                // TODO Update this code to account for this deprecation
                 profile = await Profile.findOneAndUpdate(
                     { user: req.user.id },
                     { $set: profileFields },
