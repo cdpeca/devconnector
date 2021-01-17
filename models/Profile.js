@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ProfileSchema = new mongoose.Schema({
-    // Link to the _id field in the users collection of MongoDB based on User
+    // Link to the _id field in the users collection of MongoDB based on User module and user mongoose
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
@@ -58,7 +58,7 @@ const ProfileSchema = new mongoose.Schema({
             }
         }
     ],
-    educaition: [
+    education: [
         {
             school: {
                 type: String,
@@ -100,13 +100,15 @@ const ProfileSchema = new mongoose.Schema({
         },
         linkedin: {
             type: String
-        }
+        },
         instagram: {
             type: String
         }
     },
     date: {
-        type: Date
+        type: Date,
         default: Date.now
     }
 });
+
+module.exports = Profile = mongoose.model('profile', ProfileSchema);
