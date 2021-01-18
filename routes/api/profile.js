@@ -1,4 +1,8 @@
 const express = require('express');
+// ! npm package 'request' deprecated as of Feb 11, 2020 - Need to update to use 'axios'
+// TODO Update this to use 'axios'
+const request = require('request');
+const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -136,8 +140,7 @@ router.get('/user/:user_id', async (req, res) => {
             user: req.params.user_id,
         }).populate('user', ['name', 'avatar']);
 
-        if (!profile)
-            return res.status(400).json({ msg: 'Profile note found' });
+        if (!profile) return res.status(400).json({ msg: 'Profile not found' });
 
         res.json(profile);
     } catch (err) {
@@ -333,6 +336,35 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
         await profile.save();
 
         res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   GET api/profile/github/:username
+// @desc    Get user repos from Github
+// @access  Public
+router.get('/github/:username', (req, res) => {
+    try {
+        const options = {
+            uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`,
+            method: 'GET',
+            headers: {
+                'user-agent': 'node.js',
+                Authorization: `token ${config.get('githubToken')}`,
+            },
+        };
+
+        request(options, (error, response, body) => {
+            if (error) console.error(error);
+
+            if (response.statusCode !== 200) {
+                return res.status(404).json({ msg: 'No Github profile found' });
+            }
+
+            res.json(JSON.parse(body));
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
