@@ -2,10 +2,10 @@ const express = require('express');
 // ! npm package 'request' deprecated as of Feb 11, 2020 - Need to update to use 'axios'
 // TODO Update this to use 'axios'
 const request = require('request');
-const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
@@ -352,7 +352,7 @@ router.get('/github/:username', (req, res) => {
             method: 'GET',
             headers: {
                 'user-agent': 'node.js',
-                Authorization: `token ${config.get('githubToken')}`,
+                Authorization: `token ${GITHUB_TOKEN}`,
             },
         };
 
