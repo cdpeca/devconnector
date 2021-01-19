@@ -48,6 +48,7 @@ const Register = () => {
                         value={email}
                         onChange={e => onChange(e)}
                         required
+                        autoComplete='username'
                     />
                     <small className='form-text'>
                         This site uses Gravatar so if you want a profile image,
@@ -62,6 +63,7 @@ const Register = () => {
                         value={password}
                         onChange={e => onChange(e)}
                         minLength='6'
+                        autoComplete='new-password'
                     />
                 </div>
                 <div className='form-group'>
@@ -72,6 +74,7 @@ const Register = () => {
                         value={password2}
                         onChange={e => onChange(e)}
                         minLength='6'
+                        autoComplete='new-password'
                     />
                 </div>
                 <input
