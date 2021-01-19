@@ -32,6 +32,7 @@ const Login = () => {
                         value={email}
                         onChange={e => onChange(e)}
                         required
+                        autoComplete='username'
                     />
                 </div>
                 <div className='form-group'>
@@ -42,6 +43,8 @@ const Login = () => {
                         value={password}
                         onChange={e => onChange(e)}
                         minLength='6'
+                        required
+                        autoComplete='current-password'
                     />
                 </div>
                 <input
