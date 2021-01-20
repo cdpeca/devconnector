@@ -28,9 +28,6 @@ function authReducer(state = initialState, action) {
             };
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-            // ! Should not use reducers to manage local localStorage
-            // TODO Fix this using this update: https://github.com/bradtraversy/devconnector_2.0#redux-subscription-to-manage-local-storage-
-            localStorage.setItem('token', payload.token);
             return {
                 ...state,
                 ...payload,
@@ -41,7 +38,6 @@ function authReducer(state = initialState, action) {
         case AUTH_ERROR:
         case LOGIN_FAIL:
         case LOGOUT:
-            localStorage.removeItem('token');
             return {
                 ...state,
                 token: null,
