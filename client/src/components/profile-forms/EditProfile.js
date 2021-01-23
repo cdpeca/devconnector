@@ -51,7 +51,7 @@ const EditProfile = ({
         // ! getting a warning here on missing dependencies for getCurrentProfile and profile
         // ! when they are added though, the fields won't allow updating and keep reverting to previous state
         // TODO Figure out what is going on here and resolve this warning and behavior, although technically it works fine for now
-    }, [loading]);
+    }, [loading, getCurrentProfile]);
 
     const {
         company,
