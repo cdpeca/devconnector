@@ -3,6 +3,8 @@ const axios = require('axios');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+// bring in normalize to give us a proper url, regardless of what user entered
+const normalize = require('normalize-url');
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 const Profile = require('../../models/Profile');
@@ -50,43 +52,48 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
+        // destructure the request
         const {
-            company,
             website,
-            location,
-            bio,
-            status,
-            githubusername,
             skills,
             youtube,
-            facebook,
             twitter,
             instagram,
             linkedin,
+            facebook,
+            // spread the rest of the fields we don't need to check
+            ...rest
         } = req.body;
 
-        // Build profile object
-        const profileFields = {};
-        profileFields.user = req.user.id;
-        if (company) profileFields.company = company;
-        if (website) profileFields.website = website;
-        if (location) profileFields.location = location;
-        if (bio) profileFields.bio = bio;
-        if (status) profileFields.status = status;
-        if (githubusername) profileFields.githubusername = githubusername;
-        if (skills) {
-            profileFields.skills = Array.isArray(skills)
+        // build a profile
+        const profileFields = {
+            user: req.user.id,
+            website:
+                website && website !== ''
+                    ? normalize(website, { forceHttps: true })
+                    : '',
+            skills: Array.isArray(skills)
                 ? skills
-                : skills.split(',').map(skill => ' ' + skill.trim());
-        }
+                : skills.split(',').map(skill => ' ' + skill.trim()),
+            ...rest,
+        };
 
-        // Build social object
-        profileFields.social = {};
-        if (youtube) profileFields.social.youtube = youtube;
-        if (facebook) profileFields.social.facebook = facebook;
-        if (twitter) profileFields.social.twitter = twitter;
-        if (instagram) profileFields.social.instagram = instagram;
-        if (linkedin) profileFields.social.linkedin = linkedin;
+        // Build socialFields object
+        const socialFields = {
+            youtube,
+            twitter,
+            instagram,
+            linkedin,
+            facebook,
+        };
+
+        // normalize social fields to ensure valid url
+        for (const [key, value] of Object.entries(socialFields)) {
+            if (value && value.length > 0)
+                socialFields[key] = normalize(value, { forceHttps: true });
+        }
+        // add to profileFields
+        profileFields.social = socialFields;
 
         try {
             let profile = await Profile.findOne({ user: req.user.id });
