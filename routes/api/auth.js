@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const User = require('../../models/User');
+const User = require('../../db/models/User');
 
 // @route    GET api/auth
 // @desc     Get user by token
@@ -55,8 +55,8 @@ router.post(
 
             const payload = {
                 user: {
-                    id: user.id,
-                },
+                    id: user.id
+                }
             };
 
             jwt.sign(

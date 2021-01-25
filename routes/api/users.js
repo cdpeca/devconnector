@@ -7,7 +7,7 @@ const { check, validationResult } = require('express-validator');
 const normalize = require('normalize-url');
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const User = require('../../models/User');
+const User = require('../../db/models/User');
 
 // @route   POST api/users
 // @desc    Register user
@@ -20,7 +20,7 @@ router.post(
         check(
             'password',
             'Please enter a password with 6 or more characters'
-        ).isLength({ min: 6 }),
+        ).isLength({ min: 6 })
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -43,7 +43,7 @@ router.post(
                 gravatar.url(email, {
                     s: '200',
                     r: 'pg',
-                    d: 'mm',
+                    d: 'mm'
                 }),
                 { forceHttps: true }
             );
@@ -54,7 +54,7 @@ router.post(
                 name,
                 email,
                 avatar,
-                password,
+                password
             });
 
             // Hash the password
@@ -71,8 +71,8 @@ router.post(
 
             const payload = {
                 user: {
-                    id: user.id,
-                },
+                    id: user.id
+                }
             };
 
             /*
