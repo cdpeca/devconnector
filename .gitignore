@@ -7,6 +7,8 @@ config/production.json
 # eslint config file
 .eslintrc.json
 
+# prettier config file
+.prettierrc
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,macos,vscode,react,dotenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,macos,vscode,react,dotenv
