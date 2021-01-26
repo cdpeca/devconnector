@@ -20,7 +20,7 @@ router.post(
         check(
             'password',
             'Please enter a password with 6 or more characters'
-        ).isLength({ min: 6 })
+        ).isLength({ min: 6 }),
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -43,7 +43,7 @@ router.post(
                 gravatar.url(email, {
                     s: '200',
                     r: 'pg',
-                    d: 'mm'
+                    d: 'mm',
                 }),
                 { forceHttps: true }
             );
@@ -54,7 +54,7 @@ router.post(
                 name,
                 email,
                 avatar,
-                password
+                password,
             });
 
             // Hash the password
@@ -71,8 +71,8 @@ router.post(
 
             const payload = {
                 user: {
-                    id: user.id
-                }
+                    id: user.id,
+                },
             };
 
             /*
@@ -87,7 +87,7 @@ router.post(
             jwt.sign(
                 payload,
                 JWT_SECRET,
-                { expiresIn: 360000 },
+                { expiresIn: '5 days' },
                 (err, token) => {
                     if (err) throw err;
                     res.json({ token });
