@@ -7,6 +7,11 @@ import setAuthToken from './utils/setAuthToken';
 const initialState = {};
 
 const middleware = [thunk];
+if (process.env.NODE_ENV === `development`) {
+    const { logger } = require(`redux-logger`);
+
+    middleware.push(logger);
+}
 
 const store = createStore(
     rootReducer,
