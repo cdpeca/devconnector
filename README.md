@@ -16,8 +16,6 @@ Full MERN stack using:
 -   Redux for store and state management
 -   Heroku for production hosting (if you want)
 
-<br/>
-
 # Quick Start 🚀
 
 ### Add a .env file in root folder with the following
@@ -94,11 +92,7 @@ Now Heroku will have the config it needs to build the project.
 
 > **Don't forget to make sure your production database is not whitelisted in MongoDB Atlas, otherwise the database connection will fail and your app will crash.**
 
-<br/>
-
 ---
-
-<br/>
 
 ## 🤝 Contributing
 
@@ -106,21 +100,13 @@ Contributions, issues and feature requests are welcome!
 
 Feel free to check [issues page](https://github.com/cdpeca/devconnector/issues).
 
-<br/>
-
 ---
-
-<br/>
 
 ## ⭐️ Show your support
 
 Give a ⭐️ if this project helped you!
 
-<br/>
-
 ---
-
-<br/>
 
 ## App Info
 
